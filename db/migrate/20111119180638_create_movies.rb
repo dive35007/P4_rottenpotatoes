@@ -9,6 +9,7 @@ class CreateMovies < ActiveRecord::Migration
       # of when movies are added or modified:
       t.timestamps
     end
+
   end
 
   def down
