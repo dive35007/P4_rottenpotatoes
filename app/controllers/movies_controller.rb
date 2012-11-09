@@ -63,5 +63,27 @@ class MoviesController < ApplicationController
     flash[:notice] = "Movie '#{@movie.title}' deleted."
     redirect_to movies_path
   end
+  
+  def similar
+    @movie = Movie.find(params[:id])
+    if @movie
+      if @movie.director != nil
+        if @movie.director.length > 0
+          @similarsDirector = Movie.find_all_by_director(@movie.director)
+          return
+        end
+      end
+      flash[:notice] = "'#{@movie.title}' has no director info."
+      redirect_to movies_path
+    end
+  end
 
 end
+
+# def search_tmdb
+#   # hardwired to simulate failure
+#   flash[:warning] = "'#{params[:search_terms]}' was
+#   not found in TMDb."
+#   redirect_to movies_path
+# end
+
