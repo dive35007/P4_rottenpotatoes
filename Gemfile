@@ -28,8 +28,8 @@ group :assets do
 end
 
 gem 'jquery-rails'
-
 gem 'haml'
+gem 'ruby-tmdb3'
 
 
 group :test do

@@ -17,8 +17,8 @@
   = date_select :movie, :release_date, :start_year => 1901, :default => @movie.release_date
   
   = label :movie, :description, 'Description'
-  = text_area :movie, 'description', :rows => 10, :value => @movie.description
-  %br
-  %br
+  = text_area :movie, :description, :rows => 10, :value => @movie.description
 
-  = submit_tag 'Update Movie Info'
+  %div
+    = submit_tag 'Update Movie Info'
+    = submit_tag 'Cancel'
