@@ -31,6 +31,7 @@ end
 gem 'jquery-rails'
 gem 'haml'
 gem 'ruby-tmdb3'
+gem 'omniauth-twitter'
 
 
 group :test do

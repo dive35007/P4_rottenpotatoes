@@ -18,6 +18,12 @@ Rottenpotatoes::Application.routes.draw do
   
   # Route that posts 'Search TMDb' form
   post '/movies/search_tmdb', :as => :search_tmdb
+  
+  # Twitter
+  match 'auth/:provider/callback' => 'sessions#create'
+  match '/logout' => 'sessions#destroy', :as => :logout
+  match '/login' => 'sessions#login', :as => :login
+
 
   # Sample resource route with options:
   #   resources :products do
