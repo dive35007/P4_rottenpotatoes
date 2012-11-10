@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  before_filter :login_required, :except => [ :index, :show ]
+  before_filter :set_current_user, :except => [ :index, :show ]
 
   def show
     id = params[:id]
