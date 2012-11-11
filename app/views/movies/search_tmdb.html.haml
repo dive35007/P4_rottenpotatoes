@@ -1,0 +1,21 @@
+ 
+%h1 Search TMDB
+
+%table#movies
+  %thead
+    %tr
+      %th Title
+      %th Rating
+      %th Director
+      %th Release Date
+      %th Add to movies list
+  %tbody
+    - @movies_clean.each do |movie|
+      %tr
+        %td= movie.title
+        %td= movie.rating
+        %td= movie.director
+        %td= movie.release_date
+        %td= link_to "Add #{movie.title}", new_movie_path(:movie => movie.attributes)
+
+= link_to 'Back to movie list', movies_path
