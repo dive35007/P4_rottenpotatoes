@@ -1,9 +1,7 @@
 class MoviesController < ApplicationController
-
   def show
-    id = params[:id] # retrieve movie ID from URI route
-    @movie = Movie.find(id) # look up movie by unique ID
-    # will render app/views/movies/show.<extension> by default
+    id = params[:id]
+    @movie = Movie.find(id)
   end
 
   def index
@@ -37,21 +35,14 @@ class MoviesController < ApplicationController
   end
 
   def new
-    @movie = Movie.new
-    if params[:title]
-      @movie.title = params[:title]
-      @movie.rating = params[:rating]
-      @movie.director = params[:director]
-      @movie.release_date = params[:release_date]
-      @movie.description = params[:description]
-    end
+    @movie = Movie.new(params[:movie])
   end
 
   def create
     if params['commit'] != "Cancel"
       @movie = Movie.create!(params[:movie])
       flash[:notice] = "#{@movie.title} was successfully created."
-      redirect_to movie_path(@movies.id)
+      redirect_to movie_path(@movie.id)
     else
       redirect_to movies_path
     end
@@ -86,23 +77,23 @@ class MoviesController < ApplicationController
           return
         end
       end
-      flash[:notice] = "'#{@movie.title}' has no director info. #{@movie.class}"
+      flash[:notice] = "'#{@movie.title}' has no director info."
       redirect_to movies_path
     end
   end
   
   def search_tmdb
     @movies = Movie.find_in_tmdb(params[:search_terms])
-    if @movies.class == PatchedOpenStruct
-      @movies = [@movies_TMDB]
+    
+    if @movies.class == PatchedOpenStruct # When TMDB return 1 movie
+      @movies = [@movies]
     end
     @movies_clean = Array.new #@movies_haml is available in template
     @movies.each do |movie|
-      director = nil
-      if movie.respond_to?(:crew)
-        if movie.crew[0].inspect != "nil"
-          director = movie.crew[0].name
-        end       
+      begin # This trick is for validate "director"
+        director = movie.crew[0].name
+      rescue
+        director = nil
       end
       m = Movie.new
       m.title  = movie.title  if movie.respond_to?(:title)
@@ -115,7 +106,7 @@ class MoviesController < ApplicationController
     if @movies_clean.length > 0
       flash[:notice] = "About #{@movies_clean.length} results"
     else
-      flash[:warning] = "'#{params[:search_terms]}' was not found in TMDb."
+      flash[:notice] = "'#{params[:search_terms]}' was not found in TMDb."
       redirect_to movies_path
     end
   end
