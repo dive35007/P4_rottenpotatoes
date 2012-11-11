@@ -3,15 +3,20 @@
 = form_tag movies_path do
 
   = label :movie, :title, 'Title'
-  = text_field :movie, 'title'
+  = text_field :movie, :title, :value => @movie.title
   
   = label :movie, :director, 'Director'
-  = text_field :movie, :director
+  = text_field :movie, :director, :value => @movie.director
 
   = label :movie, :rating, 'Rating'
   = select :movie, :rating, ['G','PG','PG-13','R','NC-17']
 
   = label :movie, :release_date, 'Released On'
-  = date_select :movie, :release_date
-
-  = submit_tag 'Save Changes'
+  = date_select :movie, :release_date, :start_year => 1901, :default => @movie.release_date
+  
+  = label :movie, :description, 'Description'
+  = text_area :movie, :description, :rows => 10, :value => @movie.description
+  
+  %div
+    = submit_tag 'Save Changes'
+    = submit_tag 'Cancel'
