@@ -1,5 +1,5 @@
 class MoviesController < ApplicationController
-  skip_before_filter :set_current_user, :only => :index
+#   before_filter :go_to_login, :except => [:index, :show, :similar, :search_tmdb]
 
   def show
     id = params[:id]
